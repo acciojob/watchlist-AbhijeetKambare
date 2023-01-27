@@ -33,16 +33,17 @@ public class MovieRepository {
             return null;
         }
     }
-    public void addMovieDirectorPair(String movieName,String directorName){
+    public String addMovieDirectorPair(String movieName,String directorName){
         if(movies.containsKey(movieName) && directors.containsKey(directorName)){
         List<String> MovieList=new ArrayList<>();
             if(movieDirectorPair.containsKey(directorName))
                 MovieList=movieDirectorPair.get(directorName);
                 MovieList.add(movieName);
                 movieDirectorPair.put(directorName,MovieList);
-
+                return "movie pair created succefully";
 
         }
+        else return "Invalid information";
 
     }
     public Movie getMovieByName(String name){
