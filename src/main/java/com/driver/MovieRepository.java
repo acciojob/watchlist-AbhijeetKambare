@@ -11,7 +11,12 @@ public class MovieRepository {
     HashMap<String,Movie> movies=new HashMap<>();
     HashMap<String,Director> directors=new HashMap<>();
     HashMap<String,List<String>> movieDirectorPair=new HashMap<>();
-    List<String> MovieList=new ArrayList<>();
+
+//    public MovieRepository() {
+//        this.movies = new HashMap<String,Movie>();
+//        this.directors = new HashMap<String,Director>();
+//        this.movieDirectorPair = new HashMap<String,List<String>>();
+//    }
     public String addMovie(Movie movie){
         if(!movies.containsKey(movie.getName())){
             movies.put(movie.getName(),movie);
@@ -28,17 +33,15 @@ public class MovieRepository {
             return null;
         }
     }
-    public String addMovieDirectorPair(String movieName,String directorName){
-        if(movieDirectorPair.containsKey(directorName)){
-            List<String> moviesbydirector=movieDirectorPair.get(directorName);
-            moviesbydirector.add(movieName);
-            movieDirectorPair.put(directorName,moviesbydirector);
-            return "Moive is added in Exsting Director Pair";
-        }else{
-             List<String> temp=new ArrayList<>();
-             temp.add(movieName);
-            movieDirectorPair.put(directorName,temp);
-            return "Movie and director is added succesfully";
+    public void addMovieDirectorPair(String movieName,String directorName){
+        if(movies.containsKey(movieName) && directors.containsKey(directorName)){
+        List<String> MovieList=new ArrayList<>();
+            if(movieDirectorPair.containsKey(directorName))
+                MovieList=movieDirectorPair.get(directorName);
+                MovieList.add(movieName);
+                movieDirectorPair.put(directorName,MovieList);
+
+
         }
 
     }
@@ -55,17 +58,19 @@ public class MovieRepository {
         else return null;
     }
     public List<String> getMoviesByDirectorName(String name){
+        List<String> moviesbyDirector=new ArrayList<>();
         if(movieDirectorPair.containsKey(name)){
-            return movieDirectorPair.get(name);
+            return moviesbyDirector=movieDirectorPair.get(name);
         }else{
             return null;
         }
     }
     public List<String>  findAllMovies(){
+        List<String> findalmovies=new ArrayList<>();
         for(Movie movie: movies.values()){
-            MovieList.add(movie.getName());
+            findalmovies.add(movie.getName());
         }
-        return MovieList;
+        return findalmovies;
     }
     public String deleteDirectorByName(String name){
         if(movieDirectorPair.containsKey(name)){

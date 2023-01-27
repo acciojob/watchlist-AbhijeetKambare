@@ -15,8 +15,8 @@ public class MovieService {
     public String addDirector(Director director){
         return movieRepository.addDirector(director);
     }
-    public String addMovieDirectorPair(String movieName,String directorName){
-        return movieRepository.addMovieDirectorPair(movieName,directorName);
+    public void addMovieDirectorPair(String movieName,String directorName){
+         movieRepository.addMovieDirectorPair(movieName,directorName);
     }
     public Movie getMovieByName(String name){
         return movieRepository.getMovieByName(name);
