@@ -21,24 +21,25 @@ public class MovieController {
     @PostMapping("/add-director")
     public ResponseEntity addDirector(@RequestBody Director director){
         String resopnse= movieService.addDirector(director);
-        if(resopnse==null) return new ResponseEntity<>(resopnse,HttpStatus.ALREADY_REPORTED);
+        if(resopnse==null) return new ResponseEntity<>("It is already present",HttpStatus.ALREADY_REPORTED);
         else return new ResponseEntity<>(resopnse,HttpStatus.CREATED);
     }
     @PutMapping ("/add-movie-director-pair")
     public ResponseEntity addMovieDirectorPair(@RequestParam("m") String movieName,@RequestParam("d") String directorName){
         String response=movieService.addMovieDirectorPair(movieName,directorName);
-        return new ResponseEntity<>("movie pair successfuly created",HttpStatus.CREATED);
+        if(response==null) return new ResponseEntity<>("Invalid info",HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(response,HttpStatus.CREATED);
     }
     @GetMapping("/get-movie-by-name/{name}")
     public ResponseEntity  getMovieByName(@PathVariable("name") String movieName){
         Movie movie=movieService.getMovieByName(movieName);
-        if(movie==null) return new ResponseEntity<>("Inavlid Information",HttpStatus.NOT_FOUND);
+        if(movie==null) return new ResponseEntity<>(" movie Does not exist",HttpStatus.NOT_FOUND);
         else return new ResponseEntity<>(movie,HttpStatus.FOUND);
     }
     @GetMapping("/get-director-by-name/{name}")
     public ResponseEntity getDirectorByName(@PathVariable("name") String directorName){
         Director director=movieService.getDirectorByName(directorName);
-        if(director==null) return new ResponseEntity<>("Invalid information",HttpStatus.NOT_FOUND);
+        if(director==null) return new ResponseEntity<>("director does not exist",HttpStatus.NOT_FOUND);
         else return new ResponseEntity<>(director,HttpStatus.FOUND);
     }
     @GetMapping("/get-movies-by-director-name/{director}")
@@ -55,8 +56,7 @@ public class MovieController {
     @DeleteMapping("/delete-director-by-name")
     public ResponseEntity deleteDirectorByName(@RequestParam("Dn") String directorName){
         String response=movieService.deleteDirectorByName(directorName);
-        if(response==null) return new ResponseEntity<>("Director dont have any movie",HttpStatus.NOT_FOUND);
-        else return new ResponseEntity<>(response,HttpStatus.FOUND);
+         return new ResponseEntity<>(response,HttpStatus.FOUND);
     }
     @DeleteMapping("/delete-all-directors")
     public ResponseEntity deleteAllDirectors(){

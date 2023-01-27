@@ -4,6 +4,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 @Repository
@@ -43,8 +44,7 @@ public class MovieRepository {
                 return "movie pair created succefully";
 
         }
-        else return "Invalid information";
-
+        else return null;
     }
     public Movie getMovieByName(String name){
         if(movies.containsKey(name)){
@@ -74,14 +74,42 @@ public class MovieRepository {
         return findalmovies;
     }
     public String deleteDirectorByName(String name){
+        List<String> delmovies=new ArrayList<>();
         if(movieDirectorPair.containsKey(name)){
+            delmovies=movieDirectorPair.get(name);
+            for (String movie:delmovies){
+                if(movies.containsKey(movie))
+                    movies.remove(movie);
+            }
             movieDirectorPair.remove(name);
-            return "Director and ist movie deleted succesfully";
         }
-        else return null;
+        if(directors.containsKey(name)){
+            directors.remove(name);
+        }
+        return "All movies of director is deleted";
     }
     public String deleteAllDirectors(){
-        movieDirectorPair.clear();
+        List<String>deldire=new ArrayList<>();
+        for(String director:movieDirectorPair.keySet()){
+            deldire=movieDirectorPair.get(director);
+            for(String s:deldire){
+                if(movies.containsKey(s))
+                    movies.remove(s);
+            }
+            movieDirectorPair.remove(director);
+            directors.remove(director);
+        }
         return "Directors and movies are removed Suucessfully";
     }
+//    public String getDirectorbtMovie(String name){
+//        List<String> list=new ArrayList<>();
+//        for (String directornmae:movieDirectorPair.keySet()){
+//            if(movieDirectorPair.get(directornmae));
+//            for (String s:list){
+//                if(s.equals(name))
+//                    return directornmae;
+//            }
+//        }
+//        return "not found";
+//    }
 }
